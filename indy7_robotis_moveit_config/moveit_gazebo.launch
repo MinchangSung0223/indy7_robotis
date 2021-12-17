@@ -1,0 +1,32 @@
+<launch>
+<param name="robot_description" command="$(find xacro)/xacro $(find indy7_robotis_description)/urdf/indy7_gripper.xacro" />
+<arg name="paused" default="false"/>
+<arg name="use_sim_time" default="true"/>
+
+<arg name="execution_type" default="true"/>
+<arg name="gui" default="true"/>
+<arg name="headless" default="false"/>
+<arg name="debug" default="false"/>
+<!--launch GAZEBO with own world configuration -->
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+	<arg name="debug" value="$(arg debug)"/>
+	<arg name="gui" value="$(arg gui)"/>
+	<arg name="paused" value="$(arg paused)"/>
+	<arg name="use_sim_time" value="$(arg use_sim_time)"/>
+	<arg name="headless" value="$(arg headless)"/>
+</include>
+<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model indy7"/>
+<rosparam file="$(find indy7_robotis_moveit_config)/config/ros_controllers.yaml" command="load"/>
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller indy7_hand_controller indy7_arm_controller" />
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+
+<include file="$(find indy7_robotis_moveit_config)/launch/planning_context.launch">
+  <arg name="load_robot_description" value="true"/>
+</include>
+<include file="$(find indy7_robotis_moveit_config)/launch/move_group.launch" />
+<include file="$(find indy7_robotis_moveit_config)/launch/moveit_rviz.launch" />
+
+
+
+</launch>
+

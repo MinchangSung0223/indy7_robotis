@@ -1,0 +1,43 @@
+
+
+    joint_state_controller:
+        type: joint_state_controller/JointStateController
+        publish_rate: 50
+
+    indy7_arm_controller:
+        type: effort_controllers/JointTrajectoryController
+        joints:
+            - joint0
+            - joint1
+            - joint2
+            - joint3
+            - joint4
+            - joint5
+        gains:
+            joint0: { p: 12000, d: 50, i: 0.0, i_clamp: 10000 }
+            joint1: { p: 30000, d: 100, i: 0.02, i_clamp: 10000 }
+            joint2: { p: 18000, d: 50, i: 0.01, i_clamp: 1 }
+            joint3: { p: 18000, d: 70, i: 0.01, i_clamp: 10000 }
+            joint4: { p: 12000, d: 70, i: 0.01, i_clamp: 1 }
+            joint5: { p: 7000, d: 50, i: 0.01, i_clamp: 1 }
+
+        constraints:
+            goal_time: 2.0
+
+        state_publish_rate: 25
+
+    indy7_hand_controller:
+        type: effort_controllers/JointTrajectoryController
+        joints:
+            - rh_p12_rn_a
+            - rh_r2
+            - rh_l1
+            - rh_l2
+
+        gains:
+            rh_p12_rn_a: { p: 5, d: 3.0, i: 0, i_clamp: 1 }
+            rh_r2: { p: 5, d: 1.0, i: 0, i_clamp: 1 }
+            rh_l1: { p: 5, d: 1.0, i: 0, i_clamp: 1 }
+            rh_l2: { p: 5, d: 1.0, i: 0, i_clamp: 1 }
+           
+        state_publish_rate: 25

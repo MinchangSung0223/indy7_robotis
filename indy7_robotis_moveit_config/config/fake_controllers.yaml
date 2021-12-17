@@ -1,0 +1,22 @@
+controller_list:
+  - name: fake_indy7_arm_controller
+    type: $(arg execution_type)
+    joints:
+      - joint0
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+  - name: fake_indy7_hand_controller
+    type: $(arg execution_type)
+    joints:
+      - rh_l1
+      - rh_l2
+      - rh_p12_rn_a
+      - rh_r2
+initial:  # Define initial robot poses.
+  - group: indy7_arm
+    pose: zero
+  - group: indy7_hand
+    pose: open
